@@ -1,5 +1,6 @@
 var salonbg;
 var brush, brushColour, painting, paintTimeElapsed;
+var bottles = [];
 
 function initSalon()
 {
@@ -10,6 +11,33 @@ function initSalon()
 	brush.regY = brush.getBounds().height*3/4;
 	brush.scaleX = 0.5;
 	brush.scaleY = 0.5;
+	brush.mouseEnabled = false;
+
+	addBottle("red");
+	addBottle("orange");
+	addBottle("yellow");
+	addBottle("green");
+	addBottle("blue");
+	addBottle("indigo");
+	addBottle("violet");
+
+	for (var i = 0; i < bottles.length; i++)
+	{
+		bottles[i].scaleX = 0.5;
+		bottles[i].scaleY = 0.5;
+		bottles[i].x = 200*i;
+		bottles[i].y = ACTUAL_HEIGHT - 300;
+	}
+}
+
+function addBottle(c)
+{
+	var newBottle = new createjs.Bitmap(queue.getResult("bottle_"+c));
+	newBottle.colour = c;
+
+	newBottle.on("click", function(evt) { brushColour = evt.target.colour; });
+
+	bottles.push(newBottle);
 }
 
 function enterSalon()
@@ -17,9 +45,15 @@ function enterSalon()
 	currentScreen = SCREEN_SALON;
 
 	stage.addChild(salonbg);
+
+	for (var i = 0; i < bottles.length; i++)
+	{
+		stage.addChild(bottles[i]);
+	}
+
 	stage.addChild(brush);
 
-	stage.on("stagemousedown", function(evt) { painting = true; });
+	stage.on("mousedown", function(evt) { painting = true; });
 	stage.on("stagemouseup", function(evt) { painting = false; });
 
 	brushColour = "red";
