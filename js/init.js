@@ -5,7 +5,7 @@ var ASPECT_RATIO = 16/9;
 
 var currentScreen;
 var SCREEN_LOADING = 0;
-var SCREEN_GAME = 1;
+var SCREEN_SALON = 1;
 
 var queue;
 var lastTickTime;
@@ -43,8 +43,8 @@ function loadingComplete()
 {
 	stage.removeChild(loadText);
 
-	bg = new createjs.Bitmap(queue.getResult("main_background"));
-	stage.addChild(bg);
+	initSalon();
+	enterSalon();
 }
 
 function tick()
@@ -55,6 +55,10 @@ function tick()
 	if (currentScreen == SCREEN_LOADING)
 	{
 		loadText.text = "loading: "+Math.floor(queue.progress*100)+"%";
+	}
+	if (currentScreen == SCREEN_SALON)
+	{
+		updateSalon(timeSinceLastTick);
 	}
 	
 	stage.update();

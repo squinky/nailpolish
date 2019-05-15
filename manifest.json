@@ -1,3 +1,6 @@
 { "manifest": [
+{ "id": "lid_red", "src": "img/lid_red.png" },
+{ "id": "lid_red_anim1", "src": "img/lid_red_anim1.png" },
+{ "id": "lid_red_anim2", "src": "img/lid_red_anim2.png" },
 { "id": "main_background", "src": "img/main_background.png" }
 ] }
