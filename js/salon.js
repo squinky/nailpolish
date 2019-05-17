@@ -10,6 +10,7 @@ function initSalon()
 	hand.y = -50;
 
 	paint = new createjs.Shape();
+	paint.mouseEnabled = false;
 
 	brush = new createjs.Bitmap(queue.getResult("lid_red"));
 	brush.regX = brush.getBounds().width/2;
