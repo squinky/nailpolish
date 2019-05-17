@@ -6,6 +6,7 @@
 { "id": "bottle_red", "src": "img/bottle_red.png" },
 { "id": "bottle_violet", "src": "img/bottle_violet.png" },
 { "id": "bottle_yellow", "src": "img/bottle_yellow.png" },
+{ "id": "hand_1", "src": "img/hand_1.png" },
 { "id": "lid_blue", "src": "img/lid_blue.png" },
 { "id": "lid_blue_anim1", "src": "img/lid_blue_anim1.png" },
 { "id": "lid_blue_anim2", "src": "img/lid_blue_anim2.png" },
