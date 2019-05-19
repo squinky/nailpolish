@@ -5,7 +5,7 @@ function initSalon()
 {
 	salonbg = new createjs.Bitmap(queue.getResult("main_background"));
 
-	hand = new createjs.Bitmap(queue.getResult("hand_1"));
+	hand = new createjs.Bitmap(queue.getResult("hand1"));
 	hand.x = 150;
 	hand.y = -50;
 
@@ -33,10 +33,19 @@ function initSalon()
 		bottles[i].scaleY = 0.4;
 		bottles[i].x = 150*i;
 		bottles[i].y = ACTUAL_HEIGHT - 250;
+		bottles[i].on("click", function(evt)
+		{
+			brushColour = evt.target.colour;
+			createjs.Sound.play("sploosh");
+		});
 	}
 
 	bottomBox = new createjs.Shape();
 	bottomBox.graphics.beginFill("#000000").drawRect(0, ACTUAL_HEIGHT, ACTUAL_WIDTH, 400);
+
+	hand.on("mousedown", function(evt) { painting = true; });
+	hand.on("pressmove", function(evt) { painting = true; });
+	stage.on("stagemouseup", function(evt) { painting = false; });
 }
 
 function addBottle(c)
@@ -50,25 +59,25 @@ function enterSalon()
 {
 	currentScreen = SCREEN_SALON;
 
+	var handColour = Math.random() < 0.75 ? 1 : 2;
+	hand.image = queue.getResult("hand"+handColour);
+
 	stage.addChild(salonbg);
 	stage.addChild(hand);
 	stage.addChild(paint);
 
 	for (var i = 0; i < bottles.length; i++)
 	{
-		bottles[i].on("click", function(evt) { brushColour = evt.target.colour; });
 		stage.addChild(bottles[i]);
 	}
 
 	stage.addChild(bottomBox);
 	stage.addChild(brush);
 
-	hand.on("mousedown", function(evt) { painting = true; });
-	hand.on("pressmove", function(evt) { painting = true; });
-	stage.on("stagemouseup", function(evt) { painting = false; });
-
 	brushColour = "red";
 	painting = false;
+
+	bgm = createjs.Sound.play("salon", { loop: -1 });
 }
 
 function updateSalon(timeSinceLastTick)
@@ -81,7 +90,14 @@ function updateSalon(timeSinceLastTick)
 
 	if (painting)
 	{
+		if (paintTimeElapsed == 0)
+		{
+			var brushSound = Math.random() < 0.75 ? 1 : 2;
+			createjs.Sound.play("brush"+brushSound);
+		}
+
 		paintTimeElapsed += timeSinceLastTick;
+
 		if (paintTimeElapsed < 250)
 		{
 			brush.image = queue.getResult("lid_"+brushColour+"_anim1");
@@ -122,6 +138,7 @@ function updateSalon(timeSinceLastTick)
 		paintTimeElapsed = 0;
 		brush.image = queue.getResult("lid_"+brushColour);
 	}
+
 	stage.cursor = "none";
 }
 

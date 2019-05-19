@@ -1,4 +1,5 @@
 { "manifest": [
+{ "id": "about", "src": "img/about.png" },
 { "id": "bottle_blue", "src": "img/bottle_blue.png" },
 { "id": "bottle_green", "src": "img/bottle_green.png" },
 { "id": "bottle_indigo", "src": "img/bottle_indigo.png" },
@@ -6,7 +7,10 @@
 { "id": "bottle_red", "src": "img/bottle_red.png" },
 { "id": "bottle_violet", "src": "img/bottle_violet.png" },
 { "id": "bottle_yellow", "src": "img/bottle_yellow.png" },
-{ "id": "hand_1", "src": "img/hand_1.png" },
+{ "id": "credits", "src": "img/credits.png" },
+{ "id": "hand1", "src": "img/hand1.png" },
+{ "id": "hand2", "src": "img/hand2.png" },
+{ "id": "instructions", "src": "img/instructions.png" },
 { "id": "lid_blue", "src": "img/lid_blue.png" },
 { "id": "lid_blue_anim1", "src": "img/lid_blue_anim1.png" },
 { "id": "lid_blue_anim2", "src": "img/lid_blue_anim2.png" },
@@ -28,5 +32,13 @@
 { "id": "lid_yellow", "src": "img/lid_yellow.png" },
 { "id": "lid_yellow_anim1", "src": "img/lid_yellow_anim1.png" },
 { "id": "lid_yellow_anim2", "src": "img/lid_yellow_anim2.png" },
-{ "id": "main_background", "src": "img/main_background.png" }
+{ "id": "main_background", "src": "img/main_background.png" },
+{ "id": "title-screen", "src": "img/title-screen.png" },
+{ "id": "brush1", "src": "sfx/brush1.ogg" },
+{ "id": "brush2", "src": "sfx/brush2.ogg" },
+{ "id": "click", "src": "sfx/click.ogg" },
+{ "id": "lobby", "src": "sfx/lobby.ogg" },
+{ "id": "paparazzi", "src": "sfx/paparazzi.ogg" },
+{ "id": "salon", "src": "sfx/salon.ogg" },
+{ "id": "sploosh", "src": "sfx/sploosh.ogg" }
 ] }

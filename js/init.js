@@ -6,6 +6,10 @@ var ASPECT_RATIO = 16/9;
 var currentScreen;
 var SCREEN_LOADING = 0;
 var SCREEN_SALON = 1;
+var SCREEN_MAIN_MENU = 2;
+var SCREEN_INSTRUCTIONS = 3;
+var SCREEN_CREDITS = 4;
+var SCREEN_ABOUT = 5;
 
 var queue;
 var lastTickTime;
@@ -32,7 +36,7 @@ function init()
 function showLoadingScreen()
 {
 	currentScreen = SCREEN_LOADING;
-	loadText = new createjs.Text("loading: 0%", "72px gooddog_plainregular", "#ffffff");
+	loadText = new createjs.Text("loading: 0%", "72px Fifth Grade Cursive Regular", "#ffffff");
 	loadText.textAlign = "center";
 	loadText.x = ACTUAL_WIDTH/2;
 	loadText.y = ACTUAL_HEIGHT/2 - 36;
@@ -44,7 +48,8 @@ function loadingComplete()
 	stage.removeChild(loadText);
 
 	initSalon();
-	enterSalon();
+	initScreens();
+	showScreen(SCREEN_MAIN_MENU);
 }
 
 function tick()
@@ -56,7 +61,7 @@ function tick()
 	{
 		loadText.text = "loading: "+Math.floor(queue.progress*100)+"%";
 	}
-	if (currentScreen == SCREEN_SALON)
+	else if (currentScreen == SCREEN_SALON)
 	{
 		updateSalon(timeSinceLastTick);
 	}

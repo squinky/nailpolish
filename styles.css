@@ -1,14 +1,15 @@
 @font-face
 {
-	font-family: 'gooddog_plainregular';
-	src: url('font/gooddp__-webfont.woff2') format('woff2'),
-		url('font/gooddp__-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+	font-family: 'Fifth Grade Cursive Regular';
+	src: url('font/5thgradecursive-2-webfont.woff2') format('woff2'),
+		url('font/5thgradecursive-2-webfont.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
 }
 
 body
 {
+	font-family: 'Fifth Grade Cursive Regular';
 	background: #000;
 	color: #999;
 	margin: 0;
