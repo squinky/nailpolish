@@ -1,13 +1,12 @@
 var salonbg, hand, paint, brush, brushColour, painting, paintTimeElapsed, lastX, lastY;
 var bottles = [];
+var finishButton, finished, stockPhoto, endTimeElapsed;
 
 function initSalon()
 {
 	salonbg = new createjs.Bitmap(queue.getResult("main_background"));
 
 	hand = new createjs.Bitmap(queue.getResult("hand1"));
-	hand.x = 150;
-	hand.y = -50;
 
 	paint = new createjs.Shape();
 	paint.mouseEnabled = false;
@@ -40,12 +39,19 @@ function initSalon()
 		});
 	}
 
+	finishButton = new createjs.Bitmap(queue.getResult("finish-button"));
+	finishButton.x = ACTUAL_WIDTH - 400;
+	finishButton.y = ACTUAL_HEIGHT - 220;
+	finishButton.on("click", function(evt) { finishNails(); });
+
 	bottomBox = new createjs.Shape();
 	bottomBox.graphics.beginFill("#000000").drawRect(0, ACTUAL_HEIGHT, ACTUAL_WIDTH, 400);
 
 	hand.on("mousedown", function(evt) { painting = true; });
 	hand.on("pressmove", function(evt) { painting = true; });
 	stage.on("stagemouseup", function(evt) { painting = false; });
+
+	stockPhoto = new createjs.Bitmap(queue.getResult("nails1"));
 }
 
 function addBottle(c)
@@ -64,6 +70,9 @@ function enterSalon()
 
 	stage.addChild(salonbg);
 	stage.addChild(hand);
+	stage.addChild(finishButton);
+
+	paint = new createjs.Shape();
 	stage.addChild(paint);
 
 	for (var i = 0; i < bottles.length; i++)
@@ -77,16 +86,43 @@ function enterSalon()
 	brushColour = "red";
 	painting = false;
 
+	finished = false;
+
 	bgm = createjs.Sound.play("salon", { loop: -1 });
 }
 
 function updateSalon(timeSinceLastTick)
 {
+	if (finished)
+	{
+		endTimeElapsed += timeSinceLastTick;
+
+		if (endTimeElapsed < 1000)
+		{
+			stockPhoto.alpha = endTimeElapsed/1000;
+		}
+		else if (endTimeElapsed < 10000)
+		{
+			stockPhoto.alpha = 1;
+		}
+		else if (endTimeElapsed < 11000)
+		{
+			if (stage.getChildIndex(mainmenubg) == -1) stage.addChild(mainmenubg);
+			mainmenubg.alpha = (endTimeElapsed-10000)/1000;
+		}
+		else
+		{
+			stage.removeAllChildren();
+			showScreen(SCREEN_MAIN_MENU);
+		}
+		return;
+	}
+
 	var newPos = stage.globalToLocal(stage.mouseX, stage.mouseY);
 	brush.x = newPos.x;
 	brush.y = newPos.y;
 
-	if (!hand.hitTest(brush.x-hand.x, brush.y-hand.y)) painting = false;
+	if (!hand.hitTest(brush.x, brush.y)) painting = false;
 
 	if (painting)
 	{
@@ -153,4 +189,21 @@ function getNailPolishColour()
 	if (brushColour == "indigo") colour = "#346aa7";
 	if (brushColour == "violet") colour = "#8689b9";
 	return colour;
+}
+
+function finishNails()
+{
+	bgm.stop();
+	bgm = null;
+	createjs.Sound.play("paparazzi");
+
+	stage.removeChild(brush);
+
+	var n = Math.ceil(Math.random()*5);
+	stockPhoto.image = queue.getResult("nails"+n);
+	stockPhoto.alpha = 0;
+	stage.addChild(stockPhoto)
+
+	endTimeElapsed = 0;
+	finished = true;
 }
