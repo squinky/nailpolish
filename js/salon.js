@@ -1,4 +1,4 @@
-var salonbg, hand, paint, brush, brushColour, painting, paintTimeElapsed, lastX, lastY;
+var salonbg, handContainer, hand, paint, brush, brushColour, painting, paintTimeElapsed, lastX, lastY;
 var bottles = [];
 var finishButton, finished, stockPhoto, endTimeElapsed;
 
@@ -6,10 +6,13 @@ function initSalon()
 {
 	salonbg = new createjs.Bitmap(queue.getResult("main_background"));
 
+	handContainer = new createjs.Container();
+	handContainer.mouseEnabled = true;
+	handContainer.mouseChildren = false;
 	hand = new createjs.Bitmap(queue.getResult("hand1"));
-
 	paint = new createjs.Shape();
-	paint.mouseEnabled = false;
+	handContainer.addChild(hand);
+	handContainer.addChild(paint);
 
 	brush = new createjs.Bitmap(queue.getResult("lid_red"));
 	brush.regX = brush.getBounds().width/2;
@@ -47,8 +50,8 @@ function initSalon()
 	bottomBox = new createjs.Shape();
 	bottomBox.graphics.beginFill("#000000").drawRect(0, ACTUAL_HEIGHT, ACTUAL_WIDTH, 400);
 
-	hand.on("mousedown", function(evt) { painting = true; });
-	hand.on("pressmove", function(evt) { painting = true; });
+	handContainer.on("mousedown", function(evt) { painting = true; });
+	handContainer.on("pressmove", function(evt) { painting = true; });
 	stage.on("stagemouseup", function(evt) { painting = false; });
 
 	stockPhoto = new createjs.Bitmap(queue.getResult("nails1"));
@@ -69,11 +72,12 @@ function enterSalon()
 	hand.image = queue.getResult("hand"+handColour);
 
 	stage.addChild(salonbg);
-	stage.addChild(hand);
+	stage.addChild(handContainer);
 	stage.addChild(finishButton);
 
+	handContainer.removeChild(paint);
 	paint = new createjs.Shape();
-	stage.addChild(paint);
+	handContainer.addChild(paint);
 
 	for (var i = 0; i < bottles.length; i++)
 	{
@@ -122,7 +126,7 @@ function updateSalon(timeSinceLastTick)
 	brush.x = newPos.x;
 	brush.y = newPos.y;
 
-	if (!hand.hitTest(brush.x, brush.y)) painting = false;
+	if (!handContainer.hitTest(brush.x, brush.y)) painting = false;
 
 	if (painting)
 	{
